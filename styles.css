@@ -1,5 +1,7 @@
 body {
     background-color: aliceblue;
+    font-size: 22px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .cards {
@@ -15,28 +17,104 @@ body {
     margin: 1px;
 }
 
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+input[type=text], input[type=number] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 1px solid grey;
+    border-radius: 3px;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+
+
+button[type=submit] {
+    background-color: rgb(143, 236, 143);
+    border: 1px solid grey;
+    border-radius: 5px;
+    width: 150px;
+    height: 50px;
+    margin-top: 3%;
+    cursor: pointer;
+}
+
+button[type=submit]:hover {
+    background-color: rgb(143, 226, 143);
+}
+
+/* responsive media queries*/
 @media only screen and (max-width: 425px) {
     .card {
         flex: 0 1 75%;
     }
+    .modal-content {
+        width: 80%; 
+      }
 }
 
 @media only screen and (min-width: 426px) {
     .card {
         flex: 0 1 49%;
     }
+    .modal-content {
+        width: 65%; 
+      }
 }
 
 @media only screen and (min-width: 1024px) {
     .card {
         flex: 0 1 33%;
     }
+    .modal-content {
+        width: 50%; 
+      }
 }
 
 @media only screen and (min-width: 1440px) {
     .card {
         flex: 0 1 20%;
     }
+    .modal-content {
+        width: 35%; 
+      }
 }
 
 
