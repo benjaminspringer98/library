@@ -1,8 +1,12 @@
 let myLibrary = [];
 let index; // we need this to know which book we should delete later on
+let indexToRemove;
 
 const form = document.querySelector("#myForm");
+// div where books are displayed in cards:
 const cards = document.querySelector(".cards");
+// all cards:
+let allCards;
 const openModalButton = document.querySelector("#openModalButton");
 const modal = document.querySelector("#myModal");
 const close = document.getElementsByClassName("close")[0];
@@ -66,10 +70,26 @@ function updateLibrary(book) {
 
 function deleteBook() {
     // delete book from array:
-    let indexToRemove = this.parentElement.getAttribute("data");
+    indexToRemove = this.parentElement.getAttribute("data");
     myLibrary.splice(indexToRemove, 1);
-    // and remove it from the DOM:
-    this.parentElement.remove();
+
+    /* we have associated the DOM Elements with the book objects
+    by adding data attributes to the corresponding card, but these
+    don't automatically change if we delete a book from the array, 
+    so we have to do this manually: */
+    allCards = document.querySelectorAll(".card");
+    allCards.forEach(adjustDataValue);
+
+    // finally remove the card from the DOM:
+    this.parentElement.remove();   
+}
+
+function adjustDataValue(item, i) {
+    // reduce the data attributes of all cards by one, that are above the removed one
+    if(i > indexToRemove) {
+        let currentIndex = Number(item.getAttribute("data"));
+        item.setAttribute("data", currentIndex-1);
+    }
 }
 
 /* for later usage with database, when the user loads the page and there are books already saved:
