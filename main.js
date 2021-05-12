@@ -11,7 +11,7 @@ const openModalButton = document.querySelector("#openModalButton");
 const modal = document.querySelector("#myModal");
 const close = document.getElementsByClassName("close")[0];
 const addBookButton = document.querySelector("#addBookButton");
-const deleteButton = document.querySelector(".delete");
+
 
 openModalButton.addEventListener("click", openModal);
 close.addEventListener("click", closeModal);
@@ -30,7 +30,15 @@ function addBook() {
     let bookName = document.querySelector("#bookName").value;
     let author = document.querySelector("#bookAuthor").value;
     let pages = document.querySelector("#numberOfPages").value;
-    const book = new Book(bookName, author, pages, true);
+    let read;
+    let checkboxValue = document.querySelector("#read").checked;
+    if(checkboxValue) {
+        read = true;
+    }
+    else {
+        read = false;
+    }
+    const book = new Book(bookName, author, pages, read);
     myLibrary.push(book);
     index = myLibrary.length-1; // get the index of the currently "newest" book
     closeModal();
@@ -63,9 +71,36 @@ function updateLibrary(book) {
     card.append(pagesPara);
     cards.append(card);   
 
-    /* important to add the event listener here, because if there are no cards displayed there would also be no delete buttons,
+    // add button to change read status to the card:
+    const changeReadStatusButton = document.createElement("button");
+    changeReadStatusButton.id = "changeReadStatusButton";
+    if(book.read) {
+        changeReadStatusButton.textContent = "Read";
+        changeReadStatusButton.style.backgroundColor = "rgb(187, 236, 187)";
+    }
+    else {
+        changeReadStatusButton.textContent = "Not Read";
+        changeReadStatusButton.style.backgroundColor = "rgb(252, 120, 120)";
+    }
+    card.append(changeReadStatusButton);
+    
+    /* important to add the event listeners here, because if there are no cards displayed
+     there would also be no delete buttons,
      resulting in an error */
     deleteButton.addEventListener("click", deleteBook);
+    changeReadStatusButton.addEventListener("click", () => {
+        // change the read status displayed on the button:
+        if(book.read) {
+            changeReadStatusButton.textContent = "Not read";
+            changeReadStatusButton.style.backgroundColor = "rgb(252, 120, 120)";
+        } 
+        else {
+            changeReadStatusButton.textContent = "Read";
+            changeReadStatusButton.style.backgroundColor = "rgb(187, 236, 187)";
+        }
+        // change the read status in the book object:
+        book.changeReadStatus(); 
+    });
 }
 
 function deleteBook() {
@@ -121,8 +156,14 @@ function Book(title, author, numberOfPages, read) {
     this.author =  author;
     this.numberOfPages = numberOfPages;
     this.read = read;
-    /*this.info = function() {
-        return `${this.title} by ${this.author}, ${numberOfPages} pages, ${this.read ? "read" : "not read yet"}`;
-    };*/
 }
 
+Book.prototype.changeReadStatus = function() {
+    if(this.read === true) {
+        this.read = false;
+
+    }
+    else {
+        this.read = true;
+    }
+}

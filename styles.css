@@ -1,7 +1,30 @@
 body {
     background-color: aliceblue;
-    font-size: 24px;
+    font-size: 20px;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+}
+
+#openModalButton {
+    margin: 10px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-color: lightgreen;
+    border: none;
+    border-radius: 50px;
+    height: 60px;
+    width: 60px;
+    font-size: 30px;
+}
+
+#openModalButton:hover {
+    transform: scale(1.1);
+    background-color: rgb(165, 236, 165);
 }
 
 .cards {
@@ -87,7 +110,7 @@ input[type=checkbox] {
 
 button[type=submit] {
     background-color: rgb(143, 236, 143);
-    border: 1px solid grey;
+    border: none;
     border-radius: 5px;
     width: 150px;
     height: 50px;
@@ -98,6 +121,20 @@ button[type=submit] {
 
 button[type=submit]:hover {
     background-color: rgb(143, 226, 143);
+}
+
+#changeReadStatusButton {
+    border: none;
+    height: 40px;
+    width: 75px;
+    border-radius: 5px;
+    position: relative;
+    left: 10px;
+}
+
+#changeReadStatusButton:hover {
+    cursor: pointer;
+    opacity: 0.8;
 }
 
 /* responsive media queries*/
