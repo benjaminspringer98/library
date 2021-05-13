@@ -9,14 +9,14 @@ function Book(title, author, numberOfPages, read) {
     this.read = read;
 }
 
-/*Book.prototype.changeReadStatus = function() {
+Book.prototype.changeReadStatus = function() {
     if(this.read) {
         this.read = false;
     }
     else {
         this.read = true;
     }
-}*/
+}
 
 const form = document.querySelector("#myForm");
 // div where books are displayed in cards:
@@ -117,15 +117,13 @@ function updateLibrary(book) {
             changeReadStatusButton.textContent = "Read";
             changeReadStatusButton.style.backgroundColor = "rgb(187, 236, 187)";
         }
-        // change the read status in the book object:
-        // (this is a bad solution and should be only temporary):
-        if(book.read === true) {
-            book.read = false;
-        }
-        else {
-            book.read = true;
-        }
 
+        // Book's prototype doesn't get parsed into JSON so we need to set it manually in order for the function to change read status to work
+        if(Object.getPrototypeOf(book) !== Book.prototype) {
+            Object.setPrototypeOf(book, Book.prototype);
+        }
+        // change the read status in the book object:
+        book.changeReadStatus();
         localStorage.setItem("storedLibrary", JSON.stringify(myLibrary)); 
     });
 }
