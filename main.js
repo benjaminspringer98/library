@@ -156,7 +156,7 @@ function adjustDataValue(item, i) {
 }
 
 // load library when user opens the page
-myLibrary = myLibrary = JSON.parse(localStorage.getItem("storedLibrary") || "[]");
+myLibrary = JSON.parse(localStorage.getItem("storedLibrary") || "[]");
 myLibrary.forEach(book => updateLibrary(book));
 
 /* close the modal if the user clicks anywhere else outside the modal content */
