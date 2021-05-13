@@ -2,6 +2,22 @@ let myLibrary = [];
 let index; // we need this to know which book we should delete later on
 let indexToRemove;
 
+function Book(title, author, numberOfPages, read) {
+    this.title = title;
+    this.author =  author;
+    this.numberOfPages = numberOfPages;
+    this.read = read;
+}
+
+/*Book.prototype.changeReadStatus = function() {
+    if(this.read) {
+        this.read = false;
+    }
+    else {
+        this.read = true;
+    }
+}*/
+
 const form = document.querySelector("#myForm");
 // div where books are displayed in cards:
 const cards = document.querySelector(".cards");
@@ -43,7 +59,7 @@ function addBook() {
     myLibrary = JSON.parse(localStorage.getItem("storedLibrary") || "[]");
     myLibrary.push(book); 
     localStorage.setItem("storedLibrary", JSON.stringify(myLibrary)); // save array of books to local storage
-    index = myLibrary.length-1; // get the index of the currently "newest" book
+    //index = myLibrary.length-1; // get the index of the currently "newest" book
     closeModal();
     updateLibrary(book);
 }
@@ -54,7 +70,7 @@ function updateLibrary(book) {
     card.classList.add("card");
 
     // we need to link the DOM element (card) to the index of the myLibary array
-    card.setAttribute("data", index);
+    card.setAttribute("data", myLibrary.indexOf(book));
 
     // add button to delete the book to the card: 
     const deleteButton = document.createElement("span");
@@ -102,7 +118,15 @@ function updateLibrary(book) {
             changeReadStatusButton.style.backgroundColor = "rgb(187, 236, 187)";
         }
         // change the read status in the book object:
-        book.changeReadStatus(); 
+        // (this is a bad solution and should be only temporary):
+        if(book.read === true) {
+            book.read = false;
+        }
+        else {
+            book.read = true;
+        }
+
+        localStorage.setItem("storedLibrary", JSON.stringify(myLibrary)); 
     });
 }
 
@@ -135,21 +159,7 @@ function adjustDataValue(item, i) {
 
 // load library when user opens the page
 myLibrary = myLibrary = JSON.parse(localStorage.getItem("storedLibrary") || "[]");
-myLibrary.forEach(function (book) {
-     updateLibrary(book);
-    /*const card = document.createElement("div");
-    card.classList.add("card");
-    const titlePara = document.createElement("p");
-    titlePara.textContent = book.title;
-    card.append(titlePara);
-    const authorPara = document.createElement("p");
-    authorPara.textContent = book.author;
-    card.append(authorPara);
-    const pagesPara = document.createElement("p");
-    pagesPara.textContent = book.numberOfPages;
-    card.append(pagesPara);
-    cards.append(card);  */
-});
+myLibrary.forEach(book => updateLibrary(book));
 
 /* close the modal if the user clicks anywhere else outside the modal content */
 window.onclick = function(event) {
@@ -158,19 +168,3 @@ window.onclick = function(event) {
     }
 }
 
-function Book(title, author, numberOfPages, read) {
-    this.title = title;
-    this.author =  author;
-    this.numberOfPages = numberOfPages;
-    this.read = read;
-}
-
-Book.prototype.changeReadStatus = function() {
-    if(this.read === true) {
-        this.read = false;
-
-    }
-    else {
-        this.read = true;
-    }
-}
