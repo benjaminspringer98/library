@@ -39,7 +39,10 @@ function addBook() {
         read = false;
     }
     const book = new Book(bookName, author, pages, read);
-    myLibrary.push(book);
+    
+    myLibrary = JSON.parse(localStorage.getItem("storedLibrary") || "[]");
+    myLibrary.push(book); 
+    localStorage.setItem("storedLibrary", JSON.stringify(myLibrary)); // save array of books to local storage
     index = myLibrary.length-1; // get the index of the currently "newest" book
     closeModal();
     updateLibrary(book);
@@ -106,7 +109,10 @@ function updateLibrary(book) {
 function deleteBook() {
     // delete book from array:
     indexToRemove = this.parentElement.getAttribute("data");
-    myLibrary.splice(indexToRemove, 1);
+
+    myLibrary = JSON.parse(localStorage.getItem("storedLibrary") || "[]");
+    myLibrary.splice(indexToRemove, 1);    
+    localStorage.setItem("storedLibrary", JSON.stringify(myLibrary));   
 
     /* we have associated the DOM Elements with the book objects
     by adding data attributes to the corresponding card, but these
@@ -127,9 +133,11 @@ function adjustDataValue(item, i) {
     }
 }
 
-/* for later usage with database, when the user loads the page and there are books already saved:
+// load library when user opens the page
+myLibrary = myLibrary = JSON.parse(localStorage.getItem("storedLibrary") || "[]");
 myLibrary.forEach(function (book) {
-    const card = document.createElement("div");
+     updateLibrary(book);
+    /*const card = document.createElement("div");
     card.classList.add("card");
     const titlePara = document.createElement("p");
     titlePara.textContent = book.title;
@@ -140,9 +148,8 @@ myLibrary.forEach(function (book) {
     const pagesPara = document.createElement("p");
     pagesPara.textContent = book.numberOfPages;
     card.append(pagesPara);
-    cards.append(card);   
-});*/
-
+    cards.append(card);  */
+});
 
 /* close the modal if the user clicks anywhere else outside the modal content */
 window.onclick = function(event) {
